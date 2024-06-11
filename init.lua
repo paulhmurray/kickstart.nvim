@@ -112,7 +112,6 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
-
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
@@ -155,7 +154,9 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Make cursor block size always
-vim.opt.guicursor = ""
+vim.opt.guicursor = ''
+-- better escape
+vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = false })
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -182,27 +183,25 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- Neo-tree keymaps
 vim.keymap.set('n', '<leader>n', '<Cmd>Neotree toggle<CR>', { desc = 'open neo-tree' })
 vim.keymap.set('n', '-', function()
-    local reveal_file = vim.fn.expand('%:p')
-    if (reveal_file == '') then
-      reveal_file = vim.fn.getcwd()
+  local reveal_file = vim.fn.expand '%:p'
+  if reveal_file == '' then
+    reveal_file = vim.fn.getcwd()
+  else
+    local f = io.open(reveal_file, 'r')
+    if f then
+      f.close(f)
     else
-      local f = io.open(reveal_file, "r")
-      if (f) then
-        f.close(f)
-      else
-        reveal_file = vim.fn.getcwd()
-      end
+      reveal_file = vim.fn.getcwd()
     end
-    require('neo-tree.command').execute({
-      action = "focus",          -- OPTIONAL, this is the default value
-      source = "filesystem",     -- OPTIONAL, this is the default value
-      position = "left",         -- OPTIONAL, this is the default value
-      reveal_file = reveal_file, -- path to file or folder to reveal
-      reveal_force_cwd = true,   -- change cwd without asking if needed
-    })
-  end,
-  { desc = "Open neo-tree at current file or working directory" }
-);
+  end
+  require('neo-tree.command').execute {
+    action = 'focus', -- OPTIONAL, this is the default value
+    source = 'filesystem', -- OPTIONAL, this is the default value
+    position = 'left', -- OPTIONAL, this is the default value
+    reveal_file = reveal_file, -- path to file or folder to reveal
+    reveal_force_cwd = true, -- change cwd without asking if needed
+  }
+end, { desc = 'Open neo-tree at current file or working directory' })
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
@@ -270,7 +269,7 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -305,7 +304,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -351,7 +350,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -451,19 +450,19 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      local lsp_config = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lsp_config = require 'lspconfig'
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      lsp_config["dartls"].setup({
+      lsp_config['dartls'].setup {
         capabilities = capabilities,
         cmd = {
-          "dart",
-          "language-server",
-          "--protocol=lsp",
+          'dart',
+          'language-server',
+          '--protocol=lsp',
           -- "--port=8123",
           -- "--instrumentation-log-file=/Users/robertbrunhage/Desktop/lsp-log.txt",
         },
-        filetypes = { "dart" },
+        filetypes = { 'dart' },
         init_options = {
           onlyAnalyzeProjectsWithOpenFiles = false,
           suggestFromUnimportedLibraries = true,
@@ -478,7 +477,7 @@ require('lazy').setup({
             showTodos = true,
           },
         },
-      })
+      }
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -698,7 +697,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
       },
     },
   },
