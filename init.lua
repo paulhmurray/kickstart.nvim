@@ -156,11 +156,11 @@ vim.opt.cursorline = true
 -- Make cursor block size always
 vim.opt.guicursor = ''
 
+-- better escape
+vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = false })
+
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
--- Better escape
-vim.api.nvim_set_keymap('i', 'jk', '<ESC>', { noremap = false })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
