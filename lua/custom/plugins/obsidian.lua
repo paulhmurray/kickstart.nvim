@@ -23,7 +23,7 @@ return {
         path = '/home/paulm/obsidianVault',
       },
     },
-    notes_subdir = 'notes',
+    notes_subdir = 'inbox',
 
     -- Optional, set the log level for obsidian.nvim. This is an integer corresponding to one of the log
     -- levels defined by "vim.log.levels.*".
