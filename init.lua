@@ -653,7 +653,7 @@ require('lazy').setup({
         eslint = {},
         jsonls = {},
         tailwindcss = {},
-        tsserver = {},
+        ts_ls = {},
         prettier = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
